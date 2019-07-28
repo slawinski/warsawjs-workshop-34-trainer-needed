@@ -7,8 +7,12 @@
         socket.send(JSON.stringify(data));
     }
 
+    function getRandomInteger(from, to) {
+        return Math.random() * (to - from) + from;
+    }
+
     function reconnect() {
-        const time = 5678;
+        const time = getRandomInteger(4000, 10000);
         setTimeout(() => {
             console.log('reconnect', time);
             setupServer();
@@ -20,14 +24,12 @@
 
 
         socket.addEventListener('open', () => {
-            console.log('open');
             const payload = { action: 'alarm' };
             socket.send(JSON.stringify(payload));
             // debugger;
         });
 
         socket.addEventListener('message', () => {
-            console.log('message');
             document.dispatchEvent(new CustomEvent('Piotr:Alarm'));
         });
 
